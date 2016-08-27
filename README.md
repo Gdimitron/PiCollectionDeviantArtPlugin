@@ -1,1 +1,1 @@
-# PiCollectionSaver
+# PiCollectionDeviantArtPlugin
