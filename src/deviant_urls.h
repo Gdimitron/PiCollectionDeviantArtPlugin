@@ -14,7 +14,7 @@ public:
     wstring GetMainUserPageUrlByName(const wstring &strUserName) const;
     wstring GetMainUserPageUrlById(const wstring &strUserName) const;
     wstring GetPicUrlByPicId(const wstring &strPicId) const;
-    wstring GetCommonAlbumUrlById(const wstring &strId) const;
+    wstring GetCommonAlbumUrlById(const wstring &strUserId) const;
     wstring GetUserIdFromUrl(const wstring &strUrl) const;
     wstring GetUserNameFromUrl(const wstring &strUrl) const;
     wstring GetPicIdFromUrl(const wstring &strUrl) const;

@@ -3,6 +3,7 @@
 // found in the LICENSE file.
 
 #include "deviant_html.h"
+#include <regex>
 
 extern shared_ptr<ISiteInfo> g_SiteInfo;
 

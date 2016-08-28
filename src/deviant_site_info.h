@@ -12,6 +12,8 @@ class DeviantSiteInfo : public ISiteInfo
 {
 public:
     const wstring &GetHostName() const;
+    const wstring &GetProtocol() const;
+    const wstring &GetProtocolHostName() const;
     const wstring &GetLogin() const;
     const wstring &GetAuthInfo() const;
 

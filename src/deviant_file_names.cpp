@@ -3,6 +3,7 @@
 // found in the LICENSE file.
 
 #include "deviant_file_names.h"
+#include <regex>
 
 shared_ptr<IFileSysBldr> IFileSysBldrCtr()
 {
@@ -18,5 +19,10 @@ wstring DeviantFileNames::GetPicFileName(const wstring &strUserId,
 
 wstring DeviantFileNames::GetUserId(const wstring &strFileName) const
 {
-    return wstring();
+    wstring retVal;
+    wsmatch match;
+    if (regex_match(strFileName, match, wregex(L"([^_]+)_([^_]+).jpeg"))) {
+        retVal = match[1].str();
+    }
+    return retVal;
 }
