@@ -6,6 +6,7 @@
 
 #include "../../PiCollectionSaver/src/plugin_interface.h"
 
+//TODO: move namespace using from header to source
 using namespace std;
 
 class DeviantHtmlPageElmt : public IHtmlPageElm
@@ -16,7 +17,7 @@ class DeviantHtmlPageElmt : public IHtmlPageElm
 public:
     DeviantHtmlPageElmt(const wstring &strHtml);
 
-    bool IsSelfNamePresent() const;
+    bool IsSelfNamePresent() const { return false; }
     wstring GetPersonalUserLink() const;
     wstring GetUserName() const;
     wstring GetUserIdPicPage() const;
@@ -30,8 +31,8 @@ public:
     wstring GetShownInBrowserDirectPicUrl() const;
 
     int GetTotalPhotoCount();
-    int GetHidePhotoCount();
-    int GetViewLimitedPhotoCount();
+    int GetHidePhotoCount()  { return 0; }
+    int GetViewLimitedPhotoCount()  { return 0; }
 
 private: // interface
     void PreprocessPage();	// remove exceed spaces, all '\r' and '\n'

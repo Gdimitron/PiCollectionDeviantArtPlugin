@@ -28,11 +28,6 @@ DeviantHtmlPageElmt::DeviantHtmlPageElmt(const wstring &strHtml)
     PreprocessPage();
 }
 
-bool DeviantHtmlPageElmt::IsSelfNamePresent() const
-{
-    return false;
-}
-
 wstring DeviantHtmlPageElmt::GetPersonalUserLink() const
 {
 // return something like "http://username.deviantart.com"
@@ -51,6 +46,7 @@ wstring DeviantHtmlPageElmt::GetUserIdPicPage() const
 
 wstring DeviantHtmlPageElmt::GetLastActivityTime() const
 {
+    // "Last Visit: 22 minutes ago"
     return wstring();
 }
 
@@ -86,26 +82,29 @@ wstring DeviantHtmlPageElmt::GetShownInBrowserDirectPicUrl() const
     return wstring();
 }
 
-// some preprocessing (replace '\n' '\r' to space, replace more than
-// one space and tab to just one)
-void DeviantHtmlPageElmt::PreprocessPage()
-{
-}
-
+// <span class="tighttt"><strong>83 </strong> Deviations</span>
+static const wchar_t *c_rgxPicCount = L".*class=\"tighttt\"[>< ]+strong[> ]+"
+                                      "([0-9]+)[ </]+strong[ >]+Deviations.*";
 int DeviantHtmlPageElmt::GetTotalPhotoCount()
 {
     if (m_iTotalPhotoCount == -1) {
-        m_iTotalPhotoCount = 0;
+        wsmatch match;
+        if (regex_match(m_strHtml, match, wregex(c_rgxPicCount))) {
+            if (match.size() == 2) {
+                m_iTotalPhotoCount = stoi(match[1].str());
+            } else {
+                throw parse_ex(L"No or more than one search pattern(:"
+                               + to_wstring(__LINE__) + L"): "
+                               + wstring(c_rgxPicCount), m_strHtml);
+            }
+        }
     }
     return m_iTotalPhotoCount;
 }
 
-int DeviantHtmlPageElmt::GetHidePhotoCount()
+// some preprocessing (replace '\n' '\r' to space, replace more than
+// one space and tab to just one)
+void DeviantHtmlPageElmt::PreprocessPage()
 {
-    return 0;
-}
-
-int DeviantHtmlPageElmt::GetViewLimitedPhotoCount()
-{
-    return 0;
+    m_strHtml = regex_replace(m_strHtml, wregex(L"[ \t\r\n]+"), L" ");
 }
