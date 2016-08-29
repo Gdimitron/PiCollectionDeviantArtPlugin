@@ -52,7 +52,7 @@ wstring DeviantUrlBuilder::GetUserIdFromUrl(const wstring &strUrl) const
     // return - userId
     wstring retVal;
     wsmatch match;
-    if (regex_match(strUrl, match, wregex(L"(http://|)([^/.]+).*"))) {
+    if (regex_match(strUrl, match, wregex(L"(http://|)([^/.]+).deviantart*"))) {
         retVal = match[2].str();
     }
     return retVal;

@@ -14,9 +14,12 @@ public:
     const wstring &GetHostName() const;
     const wstring &GetProtocol() const;
     const wstring &GetProtocolHostName() const;
+
     const wstring &GetLogin() const;
     const wstring &GetAuthInfo() const;
 
     const wstring &GetDBFileName() const;
     const wstring &GetDBTableName() const;
+
+    bool UsersIdAndNameSame() const { return true; }
 };
