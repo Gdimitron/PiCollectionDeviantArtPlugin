@@ -18,15 +18,17 @@ public:
     DeviantHtmlPageElmt(const wstring &strHtml);
 
     bool IsSelfNamePresent() const { return false; }
-    wstring GetPersonalUserLink() const;
+
     wstring GetUserName() const;
-    wstring GetUserIdPicPage() const;
     wstring GetLastActivityTime() const;
     wstring GetFirstCommonAlbumUrl() const;
-    wstring GetNextCommonAlbumUrl(const wstring &strCurAlbmUrl);
+    wstring GetNextCommonAlbumUrl(const wstring &strCurAlbmUrl,
+                                  int iPicOnPageCnt);
+
     list<wstring> GetPicPageUrlsList() const;
     list<wstring> GetPicPageUrlsListByImageIdOnly() const;
 
+    wstring GetUserIdPicPage() const;
     wstring GetBestPossibleDirectPicUrl() const;
     wstring GetShownInBrowserDirectPicUrl() const;
 

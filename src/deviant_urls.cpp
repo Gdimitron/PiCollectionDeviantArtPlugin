@@ -52,7 +52,8 @@ wstring DeviantUrlBuilder::GetUserIdFromUrl(const wstring &strUrl) const
     // return - userId
     wstring retVal;
     wsmatch match;
-    if (regex_match(strUrl, match, wregex(L"(http://|)([^/.]+).deviantart*"))) {
+    if (regex_match(strUrl, match,
+                    wregex(L"(http://|)([^/.]+)[.]deviantart.*"))) {
         retVal = match[2].str();
     }
     return retVal;
@@ -71,7 +72,7 @@ wstring DeviantUrlBuilder::GetPicIdFromUrl(const wstring &strUrl) const
     // return - picId
     wstring retVal;
     wsmatch match;
-    if (regex_match(strUrl, match, wregex(L".*/art/(.*)"))) {
+    if (regex_search(strUrl, match, wregex(L"/art/([^?]+)"))) {
         retVal = match[1].str();
     }
     return retVal;
