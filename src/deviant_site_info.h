@@ -6,6 +6,7 @@
 
 #include "../../PiCollectionSaver/src/plugin_interface.h"
 
+//TODO: remove using namespace from header
 using namespace std;
 
 class DeviantSiteInfo : public ISiteInfo
@@ -22,4 +23,14 @@ public:
     const wstring &GetDBTableName() const;
 
     bool UsersIdAndNameSame() const { return true; }
+    const std::wstring &PagePicUrlSign() const
+    {
+        static std::wstring strPageSign(L"/art/");
+        return strPageSign;
+    }
+    const std::wstring &DirectPicUrlSign() const
+    {
+        static std::wstring strImageSign(L"http://img");
+        return strImageSign;
+    }
 };

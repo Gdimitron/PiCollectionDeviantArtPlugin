@@ -128,14 +128,44 @@ wstring DeviantHtmlPageElmt::GetUserIdPicPage() const
     return retVal;
 }
 
+// <img collect_rid="1:57" src="http://img11.deviantart.net/e8c0/i/20/image.png"
+// data-embed-format="thumb" width="1600" height="900" alt="Image By User"
+// class="dev-content-full ">
+static cwp c_rgxImage = L"<img[^>]*src=\"([^\"]+)\"[^>]*"
+                        "class=\"dev-content-full[ ]*\">";
 wstring DeviantHtmlPageElmt::GetBestPossibleDirectPicUrl() const
 {
-    return wstring();
+    wstring retVal;
+    wsmatch match;
+    if (regex_search(m_strHtml, match, wregex(c_rgxImage))
+            && match.size() == 2) {
+        retVal = match[1].str();
+    } else {
+        throw parse_ex(L"No or more than one search pattern(:"
+                       + to_wstring(__LINE__) + L"): "
+                       + wstring(c_rgxImage), m_strHtml);
+    }
+    return retVal;
 }
 
+// <img collect_rid="1:57" src="http://pre12.deviantart.net/3d5a/i/20/image.png"
+// data-embed-format="thumb" width="1192" height="670" alt="Image By User"
+// class="dev-content-normal ">
+static cwp c_rgxImagePreview = L"<img[^>]*src=\"([^\"]+)\"[^>]*"
+                               "class=\"dev-content-normal[ ]*\">";
 wstring DeviantHtmlPageElmt::GetShownInBrowserDirectPicUrl() const
 {
-    return wstring();
+    wstring retVal;
+    wsmatch match;
+    if (regex_search(m_strHtml, match, wregex(c_rgxImagePreview))
+            && match.size() == 2) {
+        retVal = match[1].str();
+    } else {
+        throw parse_ex(L"No or more than one search pattern(:"
+                       + to_wstring(__LINE__) + L"): "
+                       + wstring(c_rgxImagePreview), m_strHtml);
+    }
+    return retVal;
 }
 
 // <span class="tighttt"><strong>83 </strong> Deviations</span>
