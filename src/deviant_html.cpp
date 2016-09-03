@@ -29,8 +29,8 @@ DeviantHtmlPageElmt::DeviantHtmlPageElmt(const wstring &strHtml)
 
 // <h1><span class="username-with-symbol u"><a class="u regular username"
 // href="http://adam-varga.deviantart.com">UserName</a>
-static cwp c_rgxUserName = L"<h1>[ ]+<span class=\"username-with-symbol u\">"
-                           "[ ]+<a class[^>]+>[ ]+([^ ]+)[ ]+</a>";
+static cwp c_rgxUserName = L"<h1>[ ]*<span class=\"username-with-symbol u\">"
+                           "[ ]*<a class[^>]+>[ ]*([^ ]+)[ ]*</a>";
 wstring DeviantHtmlPageElmt::GetUserName() const
 {
     wstring retVal;
@@ -78,10 +78,9 @@ wstring DeviantHtmlPageElmt::GetNextCommonAlbumUrl(const wstring &strCurAlbmUrl,
     wsmatch match;
     if (regex_search(strCurAlbmUrl, match, wregex(L"&offset=([0-9]+)"))
             && match.size() == 2) {
-        int cur_offset = stoi(match[1].str());
-        assert(false); // not sure about next line
-        retVal = regex_replace(strCurAlbmUrl, wregex(L"&offset=([0-9]+)"),
-                               to_wstring(cur_offset + iPicOnPageCnt));
+        int offs = stoi(match[1].str());
+        retVal = regex_replace(strCurAlbmUrl, wregex(L"&offset=[0-9]+"),
+                               L"&offset=" + to_wstring(offs + iPicOnPageCnt));
 
     } else {
         assert(strCurAlbmUrl.find(L"&offset=") == wstring::npos);
@@ -93,18 +92,39 @@ wstring DeviantHtmlPageElmt::GetNextCommonAlbumUrl(const wstring &strCurAlbmUrl,
 
 
 // ============================== album page ==============================
+// <div class="tt-a tt-fh" collect_rid="1:631" ...
+// <a class="thumb" href="http://userid.deviantart.com/art/picture"
+static cwp c_rgxPicInAlbum1 = L"<div class=\"tt-a tt-fh[^<]*<span[^<]*<span"
+                             "[^<]*<span[^<]*<a[ ]+class=\"thumb[^\"]*\"[ ]+href=\"([^\"]+)\"";
+static cwp c_rgxPicInAlbum2 = L"<div class=\"tt-a tt-fh[^<]*<span[^<]*<span"
+                             "[^<]*<span[^<]*</span[^<]*<span[^<]*<a[ ]+class=\"thumb[^\"]*\"[ ]+href=\"([^\"]+)\"";
 list<wstring> DeviantHtmlPageElmt::GetPicPageUrlsList() const
 {
     list<wstring> lstRet;
+    wsmatch *match, match1, match2;
+    auto itB = m_strHtml.cbegin();
+    for (;; itB += match->position() + match->length()) {
+        regex_search(itB, m_strHtml.cend(), match1, wregex(c_rgxPicInAlbum1));
+        regex_search(itB, m_strHtml.cend(), match2, wregex(c_rgxPicInAlbum2));
+        if (!match1.empty() && !match2.empty()) {
+            match1.position() > match2.position()
+                    ? match = &match2 : match = &match1;
+        } else if (!match1.empty()) {
+            match = &match1;
+        } else if (!match2.empty()) {
+            match = &match2;
+        } else {
+            break;
+        }
+        lstRet.push_back((*match)[1].str());
+    }
+    if (lstRet.empty()) {
+        throw parse_ex(L"No elements for search pattern(:"
+                       + to_wstring(__LINE__) + L"): "
+                       + wstring(c_rgxPicInAlbum1), m_strHtml);
+    }
     return lstRet;
 }
-
-list<wstring> DeviantHtmlPageElmt::GetPicPageUrlsListByImageIdOnly() const
-{
-    list<wstring> lstRet;
-    return lstRet;
-}
-
 
 
 // ============================== pic page ==============================

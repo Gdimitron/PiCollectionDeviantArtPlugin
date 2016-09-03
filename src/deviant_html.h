@@ -26,7 +26,6 @@ public:
                                   int iPicOnPageCnt);
 
     list<wstring> GetPicPageUrlsList() const;
-    list<wstring> GetPicPageUrlsListByImageIdOnly() const;
 
     wstring GetUserIdPicPage() const;
     wstring GetBestPossibleDirectPicUrl() const;
