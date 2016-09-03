@@ -118,11 +118,12 @@ list<wstring> DeviantHtmlPageElmt::GetPicPageUrlsList() const
         }
         lstRet.push_back((*match)[1].str());
     }
-    if (lstRet.empty()) {
-        throw parse_ex(L"No elements for search pattern(:"
-                       + to_wstring(__LINE__) + L"): "
-                       + wstring(c_rgxPicInAlbum1), m_strHtml);
-    }
+//TODO: uncomment and add album implementation(depended on total user pictures)
+//    if (lstRet.empty()) {
+//        throw parse_ex(L"No elements for search pattern(:"
+//                       + to_wstring(__LINE__) + L"): "
+//                       + wstring(c_rgxPicInAlbum1), m_strHtml);
+//    }
     return lstRet;
 }
 

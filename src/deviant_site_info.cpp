@@ -56,3 +56,21 @@ const wstring &DeviantSiteInfo::GetDBTableName() const
 {
     return c_DbTableName;
 }
+
+bool DeviantSiteInfo::IsPagePicUrl(const wstring &url) const
+{
+    if (url.find(L"/art/") != wstring::npos) {
+        return true;
+    }
+    return false;
+}
+
+bool DeviantSiteInfo::IsDirectPicUrl(const wstring &url) const
+{
+    if (url.find(L"http://orig") != wstring::npos) {
+        return true;
+    } else if (url.find(L"http://img") != wstring::npos) {
+        return true;
+    }
+    return false;
+}

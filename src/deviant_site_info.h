@@ -23,14 +23,6 @@ public:
     const wstring &GetDBTableName() const;
 
     bool UsersIdAndNameSame() const { return true; }
-    const std::wstring &PagePicUrlSign() const
-    {
-        static std::wstring strPageSign(L"/art/");
-        return strPageSign;
-    }
-    const std::wstring &DirectPicUrlSign() const
-    {
-        static std::wstring strImageSign(L"http://img");
-        return strImageSign;
-    }
+    bool IsPagePicUrl(const std::wstring &url) const;
+    bool IsDirectPicUrl(const std::wstring &url) const;
 };
