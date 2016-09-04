@@ -21,6 +21,7 @@ public:
 
     const wstring &GetDBFileName() const;
     const wstring &GetDBTableName() const;
+    const wstring &GetPicPreviewDBFileName() const;
 
     bool UsersIdAndNameSame() const { return true; }
     bool IsPagePicUrl(const std::wstring &url) const;
