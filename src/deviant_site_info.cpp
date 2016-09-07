@@ -14,7 +14,6 @@ const wstring c_AuthInfo(L""); //"login=" + c_Login + L"&pass=" + c_Password);
 
 const wstring c_DbFileName(L"deviantart.db");
 const wstring c_DbTableName(L"users_url_and_activity_time");
-const wstring c_DbPicPreviewFileName(L"deviantartPicPreviewCache.db");
 
 
 shared_ptr<ISiteInfo> ISiteInfoCtr()
@@ -56,11 +55,6 @@ const wstring &DeviantSiteInfo::GetDBFileName() const
 const wstring &DeviantSiteInfo::GetDBTableName() const
 {
     return c_DbTableName;
-}
-
-const wstring &DeviantSiteInfo::GetPicPreviewDBFileName() const
-{
-    return c_DbPicPreviewFileName;
 }
 
 bool DeviantSiteInfo::IsPagePicUrl(const wstring &url) const
