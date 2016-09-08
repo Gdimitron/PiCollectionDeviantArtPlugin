@@ -3,7 +3,10 @@
 // found in the LICENSE file.
 
 #include "deviant_file_names.h"
+
 #include <regex>
+
+using namespace std;
 
 shared_ptr<IFileSysBldr> IFileSysBldrCtr()
 {

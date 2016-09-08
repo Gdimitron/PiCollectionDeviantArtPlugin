@@ -4,6 +4,8 @@
 
 #include "deviant_site_info.h"
 
+using namespace std;
+
 const wstring c_HostName(L"deviantart.com");
 const wstring c_HostProtocol(L"http://");
 const wstring c_ProtocolHostName(c_HostProtocol + c_HostName);
@@ -14,7 +16,6 @@ const wstring c_AuthInfo(L""); //"login=" + c_Login + L"&pass=" + c_Password);
 
 const wstring c_DbFileName(L"deviantart.db");
 const wstring c_DbTableName(L"users_url_and_activity_time");
-
 
 shared_ptr<ISiteInfo> ISiteInfoCtr()
 {

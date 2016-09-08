@@ -6,16 +6,15 @@
 
 #include "../../PiCollectionSaver/src/plugin_interface.h"
 
-using namespace std;
-
 class DeviantUrlBuilder : public IUrlBuilder
 {
 public:
-    wstring GetMainUserPageUrlByName(const wstring &strUserName) const;
-    wstring GetMainUserPageUrlById(const wstring &strUserName) const;
-    wstring GetPicUrlByPicId(const wstring &strPicId) const;
-    wstring GetCommonAlbumUrlById(const wstring &strUserId) const;
-    wstring GetUserIdFromUrl(const wstring &strUrl) const;
-    wstring GetUserNameFromUrl(const wstring &strUrl) const;
-    wstring GetPicIdFromUrl(const wstring &strUrl) const;
+    std::wstring GetMainUserPageUrlByName(
+            const std::wstring &strUserName) const;
+    std::wstring GetMainUserPageUrlById(const std::wstring &strUserName) const;
+    std::wstring GetPicUrlByPicId(const std::wstring &strPicId) const;
+    std::wstring GetCommonAlbumUrlById(const std::wstring &strUserId) const;
+    std::wstring GetUserIdFromUrl(const std::wstring &strUrl) const;
+    std::wstring GetUserNameFromUrl(const std::wstring &strUrl) const;
+    std::wstring GetPicIdFromUrl(const std::wstring &strUrl) const;
 };

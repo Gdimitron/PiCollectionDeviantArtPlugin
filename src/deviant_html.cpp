@@ -3,7 +3,10 @@
 // found in the LICENSE file.
 
 #include "deviant_html.h"
+
 #include <regex>
+
+using namespace std;
 
 extern shared_ptr<ISiteInfo> g_SiteInfo;
 typedef const wchar_t* cwp;
@@ -22,7 +25,6 @@ DeviantHtmlPageElmt::DeviantHtmlPageElmt(const wstring &strHtml)
     m_strHtml = strHtml;
     PreprocessPage();
 }
-
 
 
 // ============================== main user page ==============================
@@ -90,14 +92,15 @@ wstring DeviantHtmlPageElmt::GetNextCommonAlbumUrl(const wstring &strCurAlbmUrl,
 }
 
 
-
 // ============================== album page ==============================
 // <div class="tt-a tt-fh" collect_rid="1:631" ...
 // <a class="thumb" href="http://userid.deviantart.com/art/picture"
 static cwp c_rgxPicInAlbum1 = L"<div class=\"tt-a tt-fh[^<]*<span[^<]*<span"
-                             "[^<]*<span[^<]*<a[ ]+class=\"thumb[^\"]*\"[ ]+href=\"([^\"]+)\"";
+                              "[^<]*<span[^<]*<a[ ]+class=\"thumb[^\"]*\""
+                              "[ ]+href=\"([^\"]+)\"";
 static cwp c_rgxPicInAlbum2 = L"<div class=\"tt-a tt-fh[^<]*<span[^<]*<span"
-                             "[^<]*<span[^<]*</span[^<]*<span[^<]*<a[ ]+class=\"thumb[^\"]*\"[ ]+href=\"([^\"]+)\"";
+                              "[^<]*<span[^<]*</span[^<]*<span[^<]*<a[ ]+"
+                              "class=\"thumb[^\"]*\"[ ]+href=\"([^\"]+)\"";
 list<wstring> DeviantHtmlPageElmt::GetPicPageUrlsList() const
 {
     list<wstring> lstRet;

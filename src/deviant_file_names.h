@@ -6,12 +6,10 @@
 
 #include "../../PiCollectionSaver/src/plugin_interface.h"
 
-using namespace std;
-
 class DeviantFileNames : public IFileSysBldr
 {
 public:
-    wstring GetPicFileName(const wstring &strUserId,
-                           const wstring &strFileId) const;
-    wstring GetUserId(const wstring &wstrFileName) const;
+    std::wstring GetPicFileName(const std::wstring &strUserId,
+                                const std::wstring &strFileId) const;
+    std::wstring GetUserId(const std::wstring &wstrFileName) const;
 };

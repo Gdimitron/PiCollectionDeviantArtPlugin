@@ -3,7 +3,10 @@
 // found in the LICENSE file.
 
 #include "deviant_urls.h"
+
 #include <regex>
+
+using namespace std;
 
 auto g_SiteInfo = ISiteInfoCtr();
 

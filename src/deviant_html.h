@@ -6,30 +6,27 @@
 
 #include "../../PiCollectionSaver/src/plugin_interface.h"
 
-//TODO: move namespace using from header to source
-using namespace std;
-
 class DeviantHtmlPageElmt : public IHtmlPageElm
 {
-    wstring m_strHtml;
+    std::wstring m_strHtml;
     int m_iTotalPhotoCount;
 
 public:
-    DeviantHtmlPageElmt(const wstring &strHtml);
+    DeviantHtmlPageElmt(const std::wstring &strHtml);
 
     bool IsSelfNamePresent() const { return false; }
 
-    wstring GetUserName() const;
-    wstring GetLastActivityTime() const;
-    wstring GetFirstCommonAlbumUrl() const;
-    wstring GetNextCommonAlbumUrl(const wstring &strCurAlbmUrl,
-                                  int iPicOnPageCnt);
+    std::wstring GetUserName() const;
+    std::wstring GetLastActivityTime() const;
+    std::wstring GetFirstCommonAlbumUrl() const;
+    std::wstring GetNextCommonAlbumUrl(const std::wstring &strCurAlbmUrl,
+                                       int iPicOnPageCnt);
 
-    list<wstring> GetPicPageUrlsList() const;
+    std::list<std::wstring> GetPicPageUrlsList() const;
 
-    wstring GetUserIdPicPage() const;
-    wstring GetBestPossibleDirectPicUrl() const;
-    wstring GetShownInBrowserDirectPicUrl() const;
+    std::wstring GetUserIdPicPage() const;
+    std::wstring GetBestPossibleDirectPicUrl() const;
+    std::wstring GetShownInBrowserDirectPicUrl() const;
 
     int GetTotalPhotoCount();
     int GetHidePhotoCount()  { return 0; }

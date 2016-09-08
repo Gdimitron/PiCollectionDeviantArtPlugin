@@ -6,21 +6,18 @@
 
 #include "../../PiCollectionSaver/src/plugin_interface.h"
 
-//TODO: remove using namespace from header
-using namespace std;
-
 class DeviantSiteInfo : public ISiteInfo
 {
 public:
-    const wstring &GetHostName() const;
-    const wstring &GetProtocol() const;
-    const wstring &GetProtocolHostName() const;
+    const std::wstring &GetHostName() const;
+    const std::wstring &GetProtocol() const;
+    const std::wstring &GetProtocolHostName() const;
 
-    const wstring &GetLogin() const;
-    const wstring &GetAuthInfo() const;
+    const std::wstring &GetLogin() const;
+    const std::wstring &GetAuthInfo() const;
 
-    const wstring &GetDBFileName() const;
-    const wstring &GetDBTableName() const;
+    const std::wstring &GetDBFileName() const;
+    const std::wstring &GetDBTableName() const;
 
     bool UsersIdAndNameSame() const { return true; }
     bool IsPagePicUrl(const std::wstring &url) const;
