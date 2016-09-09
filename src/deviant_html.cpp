@@ -95,31 +95,21 @@ wstring DeviantHtmlPageElmt::GetNextCommonAlbumUrl(const wstring &strCurAlbmUrl,
 // ============================== album page ==============================
 // <div class="tt-a tt-fh" collect_rid="1:631" ...
 // <a class="thumb" href="http://userid.deviantart.com/art/picture"
-static cwp c_rgxPicInAlbum1 = L"<div class=\"tt-a tt-fh[^<]*<span[^<]*<span"
-                              "[^<]*<span[^<]*<a[ ]+class=\"thumb[^\"]*\""
-                              "[ ]+href=\"([^\"]+)\"";
-static cwp c_rgxPicInAlbum2 = L"<div class=\"tt-a tt-fh[^<]*<span[^<]*<span"
-                              "[^<]*<span[^<]*</span[^<]*<span[^<]*<a[ ]+"
-                              "class=\"thumb[^\"]*\"[ ]+href=\"([^\"]+)\"";
+static cwp c_rgxPicInAlbum = L"<div class=\"tt-a tt-fh.*<a[ ]+class="
+                              "\"thumb[^\"]*\"[ ]+href=\"([^\"]+)\"";
 list<wstring> DeviantHtmlPageElmt::GetPicPageUrlsList() const
 {
     list<wstring> lstRet;
-    wsmatch *match, match1, match2;
-    auto itB = m_strHtml.cbegin();
-    for (;; itB += match->position() + match->length()) {
-        regex_search(itB, m_strHtml.cend(), match1, wregex(c_rgxPicInAlbum1));
-        regex_search(itB, m_strHtml.cend(), match2, wregex(c_rgxPicInAlbum2));
-        if (!match1.empty() && !match2.empty()) {
-            match1.position() > match2.position()
-                    ? match = &match2 : match = &match1;
-        } else if (!match1.empty()) {
-            match = &match1;
-        } else if (!match2.empty()) {
-            match = &match2;
-        } else {
-            break;
-        }
-        lstRet.push_back((*match)[1].str());
+    // std regex does not support non-greedy syntax, some adsitions for
+    // correct parsing of the gallery
+    auto html = regex_replace(m_strHtml, wregex(L"(<a[ ]+class=\"thumb[^>]*>)"),
+                              L"$1\n");
+
+    wsmatch match;
+    auto itB = html.cbegin();
+    while(regex_search(itB, html.cend(), match, wregex(c_rgxPicInAlbum))) {
+        lstRet.push_back(match[1].str());
+        itB += match.position() + match.length();
     }
 //TODO: uncomment and add album implementation(depended on total user pictures)
 //    if (lstRet.empty()) {
