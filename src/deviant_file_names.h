@@ -9,7 +9,7 @@
 class DeviantFileNames : public IFileSysBldr
 {
 public:
-    std::wstring GetPicFileName(const std::wstring &strUserId,
-                                const std::wstring &strFileId) const;
+    std::wstring GetPicFileNameWoExt(const std::wstring &strUserId,
+                                     const std::wstring &strFileId) const;
     std::wstring GetUserId(const std::wstring &wstrFileName) const;
 };

@@ -14,19 +14,17 @@ shared_ptr<IFileSysBldr> IFileSysBldrCtr()
     return retVal;
 }
 
-wstring DeviantFileNames::GetPicFileName(const wstring &strUserId,
-                                         const wstring &strFileId) const
+wstring DeviantFileNames::GetPicFileNameWoExt(const wstring &strUserId,
+                                              const wstring &strFileId) const
 {
-    //TODO: jpeg to proper extension
-    return strUserId + L"_" + strFileId + L".jpeg";
+    return strUserId + L"_" + strFileId;
 }
 
 wstring DeviantFileNames::GetUserId(const wstring &strFileName) const
 {
     wstring retVal;
     wsmatch match;
-    //TODO: jpeg to proper extension
-    if (regex_match(strFileName, match, wregex(L"([^_]+)_([^_]+).jpeg"))) {
+    if (regex_match(strFileName, match, wregex(L"([^_]+)_([^.]+).*"))) {
         retVal = match[1].str();
     }
     return retVal;

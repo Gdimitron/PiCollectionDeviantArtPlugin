@@ -26,9 +26,7 @@ DeviantHtmlPageElmt::DeviantHtmlPageElmt(const wstring &strHtml)
     PreprocessPage();
 }
 
-
 // ============================== main user page ==============================
-
 // <h1><span class="username-with-symbol u"><a class="u regular username"
 // href="http://adam-varga.deviantart.com">UserName</a>
 static cwp c_rgxUserName = L"<h1>[ ]*<span class=\"username-with-symbol u\">"
@@ -91,7 +89,6 @@ wstring DeviantHtmlPageElmt::GetNextCommonAlbumUrl(const wstring &strCurAlbmUrl,
     return retVal;
 }
 
-
 // ============================== album page ==============================
 // <div class="tt-a tt-fh" collect_rid="1:631" ...
 // <a class="thumb" href="http://userid.deviantart.com/art/picture"
@@ -120,13 +117,13 @@ list<wstring> DeviantHtmlPageElmt::GetPicPageUrlsList() const
     return lstRet;
 }
 
-
 // ============================== pic page ==============================
 // <span class="by">by</span> <span class="username-with-symbol u"> <a class=
 // "u regular username" href="http://adam-varga.deviantart.com/">UserName</a>
 static cwp c_rgxByUserName = L"<span class=\"by\">[^<]+</span>[ ]*<span "
-                             "class=\"username-with-symbol u\">"
-                             "[ ]*<a class[^>]+>[ ]*([^ <]+)[ ]*</a>";
+                             "class=\"username-with-symbol[^\"]*\">"
+                             "[ ]*(?:<a class[^>]+>[ ]*([^ <]+)[ ]*</a>"
+                             "|<span class=\"banned username\">([^<]+))";
 wstring DeviantHtmlPageElmt::GetUserIdPicPage() const
 {
     wstring retVal;
@@ -201,9 +198,19 @@ int DeviantHtmlPageElmt::GetTotalPhotoCount()
     return m_iTotalPhotoCount;
 }
 
-// some preprocessing (replace '\n' '\r' to space, replace more than
-// one space and tab to just one)
+// some preprocessing (replace '\n' '\r' and '\t' to nothing)
 void DeviantHtmlPageElmt::PreprocessPage()
 {
-    m_strHtml = regex_replace(m_strHtml, wregex(L"[ \t\r\n]+"), L" ");
+    wstring strHtml;
+    strHtml.reserve(m_strHtml.size());
+    for (auto ch: m_strHtml) {
+        switch (ch) {
+        case L'\t':
+        case L'\r':
+        case L'\n':
+            continue;
+        }
+        strHtml += ch;
+    }
+    m_strHtml.swap(strHtml);
 }
