@@ -129,8 +129,12 @@ wstring DeviantHtmlPageElmt::GetUserIdPicPage() const
     wstring retVal;
     wsmatch match;
     if (regex_search(m_strHtml, match, wregex(c_rgxByUserName))
-            && match.size() == 2) {
-        retVal = match[1].str();
+            && match.size() == 3) {
+        if (match[1].length()) {
+            retVal = match[1].str();
+        } else {
+            retVal = match[2].str();
+        }
     } else {
         throw parse_ex(L"No or more than one search pattern(:"
                        + to_wstring(__LINE__) + L"): "
